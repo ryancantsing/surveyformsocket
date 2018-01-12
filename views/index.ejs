@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document). ready(function () {
+            
+        var socket = io.connect();
+        $('button').click(function (){
+            socket.emit( "button", {name: $('#name').val(), location: $('#location').val(), language: $('#language').val(), comment: $('#comment').val()
+            });
+            socket.on( 'server_response', function (data){
+                console.log(data);
+            $("#resultdiv").html("<h3>You emitted the following information to the server name: " + data.data.name + " location: " + data.data.location + " language: " + data.data.language + " comment: " + data.data.comment + ". And your lucky number is  " + data.number);
+            });
+        })
+    })
+    </script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="resultdiv"></div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="location">Location:</label>
+        <select name="location" id="location">
+            <option value="San Jose">San Jose</option>
+            <option value="Space">Space</option>
+            <option value="Burbank">Burbank</option>
+            <option value="Narnia">Narnia</option>
+            <option value="Seattle">Seattle</option>
+        </select><br>
+    <label for="language">Language</label>
+        <select name="language" id="language">
+            <option value="javascript">Javascript</option>
+            <option value="python">Python</option>
+            <option value="ruby">Ruby</option>
+            <option value="swift">Swift</option>
+        </select><br>
+    <h5>Comment (optional)</h5>
+    <textarea name="comment"cols="30" rows="10" id="comment"></textarea><br>
+    <button name='button'>Submit</button>
+</body>
+</html> 
